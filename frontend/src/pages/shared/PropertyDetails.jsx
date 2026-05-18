@@ -5,7 +5,7 @@ import { useAuth } from '../../context/authcontext';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import API_URL from '../../config';
 import axios from 'axios';
-import { HiBadgeCheck, HiCalendar, HiChatAlt, HiChevronLeft, HiChevronRight, HiCollection, HiHeart, HiLocationMarker, HiOutlineHeart, HiOutlineHome, HiOutlineUserGroup, HiOutlineViewGrid } from 'react-icons/hi';
+import { HiBadgeCheck, HiCalendar, HiChatAlt, HiChevronLeft, HiChevronRight, HiCollection, HiHeart, HiLocationMarker, HiOutlineHeart, HiOutlineHome, HiOutlineUserGroup, HiOutlineViewGrid, HiX } from 'react-icons/hi';
 import PropertyCard from '../../components/common/PropertyCard';
 
 const PropertyDetails = () => {
@@ -13,6 +13,7 @@ const PropertyDetails = () => {
   const { user, token } = useAuth();
   const navigate = useNavigate();
   const [property, setProperty] = useState(null);
+  const [sellerAvailable, setSellerAvailable] = useState(true);
   const [similarProperties, setSimilarProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,19 +38,21 @@ const PropertyDetails = () => {
                               headers: token ? { Authorization: `Bearer ${token}` } : {},
                         });
                         setProperty(res.data.property);
+                        setSellerAvailable(res.data.sellerAvailable !== false);
                         setSimilarProperties(res.data.similarProperties || res.data.similarproperties || []);
 
                         if (user && user.role === "buyer") {
                               const wishRes = await axios.get(`${API_URL}/api/wishlist`, {
                                     headers: { Authorization: `Bearer ${token}` },
                               });
-                              const found = wishRes.data.some((item) => item.property?._id === id);
+                                    const found = wishRes.data.data.some((item) => item.property?._id === id);
                               setIsInWishlist(found);
                         }
                         setLoading(false);
                         
                   } catch (error) {
-                        setError("Failed to load property details.");
+                           console.error("Property fetch error:", error.response?.data || error.message);
+                           setError(error.response?.data?.message || "Failed to load property details.");
                         setLoading(false);
                   }
             };
@@ -110,31 +113,51 @@ const PropertyDetails = () => {
             }
 
             try {
+                  const sellerId = property.seller?._id || property.seller;
+
+                  if (!sellerAvailable || !sellerId) {
+                        return alert("This property's seller account is no longer available.");
+                  }
+
                   const res = await axios.post(
-                        `${API_URL}/api/chat/start`,
+                        `${API_URL}/api/chat/create`,
                         {
                               propertyId: id,
-                              sellerId: property.seller._id,
+                              sellerId,
                         },
                         {
                               headers: { Authorization: `Bearer ${token}` },
                         }
                   );
-                  const chat = res.data;
+                  const chat = res.data.chat;
 
-                  await axios.post(
-                        `${API_URL}/api/chat/send/${chat._id}`,
-                        {
-                              chatId: chat._id,
-                              text: `(context: Interested in property "${property.title}")`,
-                              image: property.images?.[0],
-                        },
-                        { headers: { Authorization: `Bearer ${token}` } }
-                  );
+                  if (!chat?._id) {
+                        throw new Error("Chat was not created by the server.");
+                  }
+
+                  try {
+                        await axios.post(
+                              `${API_URL}/api/chat/send/${chat._id}`,
+                              {
+                                    chatId: chat._id,
+                                    text: `(context: Interested in property "${property.title}")`,
+                                    image: property.images?.[0],
+                              },
+                              { headers: { Authorization: `Bearer ${token}` } }
+                        );
+                  } catch (messageError) {
+                        console.warn("Chat opened, but the context message was not sent:", messageError.response?.data || messageError);
+                  }
+
                   navigate("/chat-messages", { state: { chat } });
             } catch (error) {
-                  console.error("Error starting chat:", error);
-                  alert("Failed to start chat");
+                  const message =
+                        error.response?.data?.message ||
+                        error.response?.data?.error ||
+                        error.message ||
+                        "Failed to start chat";
+                  console.error("Error starting chat:", error.response?.data || error);
+                  alert(message);
             }
       }
        const [lightboxIndex, setLightboxIndex] = useState(null);
@@ -406,7 +429,11 @@ const PropertyDetails = () => {
               </div>
 
                                           <div className={s.chatButtonWrapper}>
-                                                <button className={s.chatButton} onClick={handleChat}>
+                                                <button
+                                                      className={s.chatButton}
+                                                      onClick={handleChat}
+                                                      disabled={!sellerAvailable || !property.seller}
+                                                >
                                                       <HiChatAlt /> Chat
                                                 </button>
                                           </div>

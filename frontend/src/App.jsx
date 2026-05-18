@@ -26,6 +26,8 @@ import { useAuth } from './context/authcontext.jsx'
 import { ProtectedRoutes, PublicRoute } from './components/common/ProtectedRoutes.jsx'
 import MyInquiries from './pages/buyer/MyInquiries.jsx'
 import ChatMessages from './pages/shared/ChatMessages.jsx'
+import Contact from './pages/shared/Contact.jsx'
+import Wishlist from './pages/buyer/Wishlist.jsx'
 
 //to scroll to top whenever the route is change
 const ScrollToTopOnRouteChange = () => {
@@ -102,7 +104,9 @@ const App = ()  =>{
           
           <Route element={<SellerLayoutWrapper />}>
             <Route path="/inquiries" element={<MyInquiries />} />
-            <Route path ="/chat-messages" element={<ChatMessages/>}/>
+            <Route path="/chat-messages" element={<ChatMessages />} />
+            <Route path="/wishlist" element={<Wishlist/>}/>
+            <Route path="/contact" element={<Contact/>}/>
             <Route path="/profile" element={<Profile />} />
           </Route>
           <Route element={<ProtectedRoutes allowedRoles={["seller"]} />}>

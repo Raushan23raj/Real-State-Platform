@@ -3,7 +3,7 @@ import Wishlist from "../models/wishlistmodels.js";
 // add property to wishlist
 export const addToWishlist = async (req, res) => {
       try {
-            const { propertyId } = req.body;
+            const propertyId = req.params.propertyId || req.body.propertyId;
             const alreadyExist = await Wishlist.findOne({
                   user: req.user._id,
                   property: propertyId,
@@ -50,7 +50,7 @@ export const getWishlistProperty = async (req, res) => {
 // remove property from wishlist
 export const removeToWishlist = async (req, res) => {
       try {
-            const { propertyId } = req.body;
+            const propertyId = req.params.propertyId || req.body.propertyId;
 
             const result = await Wishlist.findOneAndDelete({
                   user: req.user._id,

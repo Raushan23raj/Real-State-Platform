@@ -58,7 +58,7 @@ const MyInquiries = () => {
       const handleStartChat = async (inq) => {
             try {
                   const res = await axios.post(
-                        `${API_URL}/api/chat/start`,
+                        `${API_URL}/api/chat/create`,
                         {
                               propertyId: inq.property?._id,
                               buyerId: inq.buyer?._id,

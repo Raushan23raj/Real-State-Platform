@@ -28,7 +28,7 @@ export const addproperty = async (req, res) => {
                   bathrooms: req.body.bathrooms ? Number(req.body.bathrooms) : undefined,
                   areaSize: req.body.areaSize ? Number(req.body.areaSize) : undefined,
                   furnishing: req.body.furnishing,
-                  status: req.body.status,
+                  status: req.body.status || "sale",
                   images: imageUrls,
                   seller: req.user._id,
                   amenities: req.body.amenities
@@ -308,13 +308,17 @@ export const getlalproperties = async (req, res) => {
             if (sort === "latest") sortOption = { createdAt: -1 };
 
             const properties = await Property.find(query)
-                  .populate("seller", "name phone profilePic")
+                  .populate("seller", "name phone profilePic role isBlocked")
                   .sort(sortOption);
+
+            const availableProperties = properties.filter(
+                  (property) => property.seller && property.seller.role === "seller" && !property.seller.isBlocked
+            );
 
             res.json({
                   success: true,
-                  count: properties.length,
-                  properties,
+                  count: availableProperties.length,
+                  properties: availableProperties,
             });
       } catch (error) {
             res.status(500).json({
@@ -331,7 +335,7 @@ export const getpropertydetails = async (req, res) => {
       try {
             const property = await Property.findById(req.params.id).populate(
                   "seller",
-                  "name email phone profilePic"
+                  "name email phone profilePic role"
             )
             if (!property) {
                   return res.status(404).json({
@@ -339,6 +343,9 @@ export const getpropertydetails = async (req, res) => {
                         message: "Property not found"
                   })
             }
+
+            const sellerAvailable = Boolean(property.seller && property.seller.role === "seller");
+
             //unique view tracking by id
             let visitorId = req.ip;
             const authHeader = req.headers.authorization;
@@ -376,6 +383,7 @@ export const getpropertydetails = async (req, res) => {
             res.json({
                   success: true,
                   property,
+                  sellerAvailable,
                   similarProperties: similarproperties
             });
 
