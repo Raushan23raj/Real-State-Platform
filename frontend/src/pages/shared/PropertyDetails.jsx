@@ -41,11 +41,11 @@ const PropertyDetails = () => {
                         setSellerAvailable(res.data.sellerAvailable !== false);
                         setSimilarProperties(res.data.similarProperties || res.data.similarproperties || []);
 
-                        if (user && user.role === "buyer") {
+                        if (user && user.role === "buyer" && token) {
                               const wishRes = await axios.get(`${API_URL}/api/wishlist`, {
                                     headers: { Authorization: `Bearer ${token}` },
                               });
-                                    const found = wishRes.data.data.some((item) => item.property?._id === id);
+                                    const found = (wishRes.data?.data || []).some((item) => String(item.property?._id) === String(id));
                               setIsInWishlist(found);
                         }
                         setLoading(false);
@@ -64,19 +64,22 @@ const PropertyDetails = () => {
       const handleWishlistToggle = async () => {
             if (!user) return navigate("/login");
             try {
+                  const wishlistId = String(id);
+                  const nextWishlisted = !isInWishlist;
+                  setIsInWishlist(nextWishlisted);
+
                   if (isInWishlist) {
-                        await axios.delete(`${API_URL}/api/wishlist/${id}`, {
+                        await axios.delete(`${API_URL}/api/wishlist/${wishlistId}`, {
                               headers: { Authorization: `Bearer ${token}` }
                         });
-                        setIsInWishlist(false);
                   } else {
-                        await axios.post(`${API_URL}/api/wishlist/${id}`, {}, {
+                        await axios.post(`${API_URL}/api/wishlist/${wishlistId}`, {}, {
                               headers: { Authorization: `Bearer ${token}` }
                         });
-                        setIsInWishlist(true);
                   }
             } catch (error) {
-                  alert("Failed to update wishlist.")
+                  setIsInWishlist((prev) => !prev);
+                  alert(error.response?.data?.message || "Failed to update wishlist.")
             }
       }
 

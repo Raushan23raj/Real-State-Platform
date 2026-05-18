@@ -10,9 +10,10 @@ export const addToWishlist = async (req, res) => {
             });
 
             if (alreadyExist) {
-                  return res.status(400).json({
-                        success: false,
+                  return res.status(200).json({
+                        success: true,
                         message: "Property already in wishlist",
+                        wishlist: alreadyExist,
                   });
             }
 

@@ -30,17 +30,17 @@ const Landingpages = () => {
       useEffect(() => {
             fetchProperties();
             fetchCounts();
-            if (user) {
+            if (user && token) {
                   fetchWishlist();
             }
-      }, [user]);
+      }, [user, token]);
       const fetchWishlist = async () => {
             try {
                   const res = await axios.get(`${API_URL}/api/wishlist`, {
                         headers: { Authorization: `Bearer ${token}` },
                   });
                   setWishlistedIds(
-                        res.data
+                                    (res.data?.data || [])
                               .filter((item) => item.property)
                               .map((item) => String(item.property._id))
                   );
@@ -52,23 +52,29 @@ const Landingpages = () => {
       // to remove a wishlist
       const handleToggleWishlist = async (propertyId) => {
             try {
-                  const isWishlisted = wishlistedIds.includes(propertyId);
+                  const wishlistId = String(propertyId);
+                  const isWishlisted = wishlistedIds.includes(wishlistId);
+
+                  // optimistic UI update so the heart turns red immediately
+                  setWishlistedIds((prev) =>
+                        isWishlisted ? prev.filter((id) => id !== wishlistId) : [...prev, wishlistId]
+                  );
+
                   if (isWishlisted) {
-                        await axios.delete(`${API_URL}/api/wishlist/${propertyId}`, {
+                        await axios.delete(`${API_URL}/api/wishlist/${wishlistId}`, {
                               headers: { Authorization: `Bearer ${token}` },
                         });
-                        setWishlistedIds((prev) => prev.filter((id) => id !== propertyId));
                   } else {
                         await axios.post(
-                              `${API_URL}/api/wishlist/${propertyId}`,
+                              `${API_URL}/api/wishlist/${wishlistId}`,
                               {},
                               { headers: { Authorization: `Bearer ${token}` } }
                         );
-                        setWishlistedIds((prev) => [...prev, propertyId]);
                   }
 
 
             } catch (error) {
+                  fetchWishlist();
                   console.error("Failed to toggle wishlist", error);
             }
       };

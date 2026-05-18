@@ -16,15 +16,21 @@ const Wishlist = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
     fetchWishlist();
-  }, []);
+  }, [token]);
 
   const fetchWishlist = async() => {
     try {
       const res = await axios.get(`${API_URL}/api/wishlist`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setWishlistItems(res.data?.data || []);
+      setWishlistItems(res.data?.data || res.data || []);
+      setError(null);
       setLoading(false);
     } catch (error) {
       setError("Failed to load wishlist.")

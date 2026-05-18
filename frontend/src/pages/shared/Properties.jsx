@@ -76,10 +76,10 @@ const Properties = () => {
 
     fetchProperties(initialFilters);
 
-    if (user) {
+    if (user && token) {
       fetchWishlist();
     }
-  }, [location.search, user]);
+  }, [location.search, user, token]);
 
   // Fetch wishlist
   const fetchWishlist = async () => {
@@ -103,21 +103,24 @@ const Properties = () => {
   // Toggle wishlist
   const handleToggleWishlist = async (propertyId) => {
     try {
-      const isWishlisted = wishlistedIds.includes(propertyId);
+      const wishlistId = String(propertyId);
+      const isWishlisted = wishlistedIds.includes(wishlistId);
+
+      // update UI immediately, then rollback on failure
+      setWishlistedIds((prev) =>
+        isWishlisted ? prev.filter((id) => id !== wishlistId) : [...prev, wishlistId],
+      );
 
       if (isWishlisted) {
-        await axios.delete(`${API_URL}/api/wishlist/${propertyId}`, {
+        await axios.delete(`${API_URL}/api/wishlist/${wishlistId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setWishlistedIds((prev) =>
-          prev.filter((id) => id !== propertyId),
-        );
       } else {
         await axios.post(
-          `${API_URL}/api/wishlist/${propertyId}`,
+          `${API_URL}/api/wishlist/${wishlistId}`,
           {},
           {
             headers: {
@@ -126,9 +129,10 @@ const Properties = () => {
           },
         );
 
-        setWishlistedIds((prev) => [...prev, propertyId]);
       }
     } catch (error) {
+      // resync from server if the request fails
+      fetchWishlist();
       console.log('Failed to toggle wishlist:', error);
     }
   };
