@@ -165,12 +165,7 @@ export const getUserChats = async (req, res) => {
 
 export const getSingleChat = async (req, res) => {
       try {
-
-            const chat = await Chat.findById(req.params.chatId)
-                  .populate("buyer", "name email profilePic")
-                  .populate("seller", "name email profilePic")
-                  .populate("property", "title price images")
-                  .populate("message.sender", "name profilePic");
+            const chat = await Chat.findById(req.params.chatId);
 
             if (!chat) {
                   return res.status(404).json({
@@ -184,6 +179,12 @@ export const getSingleChat = async (req, res) => {
                         message: "Your are not authorized"
                   })
             }
+
+            await chat.populate("buyer", "name email profilePic");
+            await chat.populate("seller", "name email profilePic");
+            await chat.populate("property", "title price images");
+            await chat.populate("message.sender", "name profilePic");
+
             return res.status(200).json({
                   success: true,
                   chat

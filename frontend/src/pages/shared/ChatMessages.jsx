@@ -28,11 +28,32 @@ const ChatMessages = () => {
 
       //to fetch the conversation (btw buyer and seller)
 
+      const loadChatConversation = async (chatId, fallbackChat = null) => {
+            if (!chatId || !token) return;
+
+            try {
+                  const res = await axios.get(`${API_URL}/api/chat/${chatId}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                  });
+
+                  const fullChat = res.data.chat || fallbackChat;
+                  if (fullChat) {
+                        setActiveChat(fullChat);
+                        const msgs = (fullChat.message || []).slice().sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                        setMessages(msgs);
+                        joinChat(fullChat._id);
+                        scrollTOBottom();
+                  }
+            } catch (error) {
+                  console.error("Error loading chat:", error);
+            }
+      };
+
       useEffect(() => {
-            // if (!token || !user) {
-            //       setLoading(false);
-            //       return;
-            // }
+            if (!token) {
+                  setLoading(false);
+                  return;
+            }
 
             const fetchConversations = async () => {
                   try {
@@ -46,9 +67,17 @@ const ChatMessages = () => {
                                     (c) => c._id === location.state.chat._id,
                               );
                               if (existingChat) {
-                                    setActiveChat(existingChat);
+                                    await loadChatConversation(existingChat._id, existingChat);
                               } else {
-                                    setActiveChat(location.state.chat)
+                                    await loadChatConversation(location.state.chat._id, location.state.chat);
+                              }
+                        } else {
+                              const savedChatId = localStorage.getItem("activeChatId");
+                              if (savedChatId) {
+                                    const savedChat = fetchedConversations.find((c) => c._id === savedChatId);
+                                    if (savedChat) {
+                                          await loadChatConversation(savedChat._id, savedChat);
+                                    }
                               }
                         }
                         setLoading(false);
@@ -58,7 +87,7 @@ const ChatMessages = () => {
                   }
             };
             fetchConversations();
-      }, [user, location.state]);
+      }, [user, location.state, token]);
 
       //to fetch messages
       useEffect(() => {
@@ -72,7 +101,8 @@ const ChatMessages = () => {
                         const res = await axios.get(`${API_URL}/api/chat/${activeChat._id}`, {
                               headers: { Authorization: `Bearer ${token}` },
                         });
-                        setMessages(res.data.chat?.message || []);
+                              const msgs = (res.data.chat?.message || []).slice().sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                              setMessages(msgs);
                         joinChat(activeChat._id);
                         scrollTOBottom();
                   } catch (error) {
@@ -102,6 +132,7 @@ const ChatMessages = () => {
 
       useEffect(() => {
             if (activeChat) {
+                  localStorage.setItem("activeChatId", activeChat._id);
                   const timer = setTimeout(() => scrollTOBottom(), 100);
                   return () => clearTimeout(timer);
             }
@@ -210,7 +241,7 @@ const ChatMessages = () => {
                                 conversation.map((chat) => (
                                                   <div key={chat._id} className={`${s.conversationItem} ${
                                                         activeChat?._id === chat._id ? s.conversationItemActive : ""
-                                                        }`} onClick={() => setActiveChat(chat)}
+                                                        }`} onClick={() => loadChatConversation(chat._id, chat)}
                                                   >
                                                         <div className={s.avatar}>
                                                               {getChatPartner(chat)?.profilePic ? (
@@ -265,12 +296,7 @@ const ChatMessages = () => {
                     <div className={s.chatPartnerName}>
                       {getChatPartner(activeChat)?.name}
                     </div>
-                    {activeChat?.property && (
-                      <div className={s.propertyInfo}>
-                        <p>{activeChat.property.title}</p>
-                        <p>₹{activeChat.property.price?.toLocaleString()}</p>
-                      </div>
-                    )}
+                                                            {/* property info removed from header */}
                   </div>
                 </div>
               </div>
