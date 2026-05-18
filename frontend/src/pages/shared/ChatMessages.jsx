@@ -319,6 +319,23 @@ const ChatMessages = () => {
                                                                         marginLeft: isOwn ? 'auto' : undefined,
                                                                   }}
                                                             >
+                                                                  {msg.image && (
+                                                                        <div style={{ marginBottom: msg.text ? 8 : 0 }}>
+                                                                              <img
+                                                                                    src={msg.image}
+                                                                                    alt="Chat attachment"
+                                                                                    style={{
+                                                                                          display: 'block',
+                                                                                          width: '100%',
+                                                                                          maxWidth: 280,
+                                                                                          maxHeight: 220,
+                                                                                          objectFit: 'cover',
+                                                                                          borderRadius: 12,
+                                                                                          marginBottom: msg.text ? 8 : 0,
+                                                                                    }}
+                                                                              />
+                                                                        </div>
+                                                                  )}
                                                                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
                                                                         <div style={{ color: isOwn ? '#ffffff' : '#0f172a', wordBreak: 'break-word', flex: 1 }}>{msg.text}</div>
                                                                         {isOwn && (
