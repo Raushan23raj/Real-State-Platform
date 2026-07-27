@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { myPropertiesStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import { Link } from 'react-router-dom'
-import API_URL from '../../config.js'
+const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
 import axios from 'axios'
 import { HiOutlineCheckCircle, HiOutlineLibrary, HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi'
 import PropertyCard from '../../components/common/PropertyCard'

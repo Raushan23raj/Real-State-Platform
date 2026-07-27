@@ -4,12 +4,13 @@ import Navbar from "../../components/common/Navbar.jsx";
 import { HiHome, HiOfficeBuilding, HiShieldCheck, HiLightningBolt, HiCurrencyDollar, HiVideoCamera, HiSearch, HiMail, HiPhone, HiLocationMarker } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authcontext.jsx";
-import API_URL from "../../config.js";
 import axios from "axios";
 import banner from '../../assets/bannerimage.png'
 import PropertyCard from "../../components/common/PropertyCard";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa"
 import logo from "../../assets/image.png"
+
+const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
 
 const Landingpages = () => {
       const navigate = useNavigate();

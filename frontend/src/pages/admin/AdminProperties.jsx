@@ -3,7 +3,7 @@ import { adminPropertiesStyles as s } from '../../assets/dummyStyles'
 import axios from 'axios'
 import { useAuth } from '../../context/authcontext'
 import PropertyCard from '../../components/common/PropertyCard'
-import API_URL from '../../config.js'
+const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
 import { Link } from 'react-router-dom'
 import { HiOutlineExternalLink, HiOutlineTrash } from 'react-icons/hi'
 

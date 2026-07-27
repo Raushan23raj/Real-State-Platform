@@ -3,7 +3,7 @@ import axios from 'axios'
 import { addPropertyStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import { useNavigate } from 'react-router-dom';
-import API_URL from '../../config.js';
+const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
 import { HiUpload } from 'react-icons/hi';
 
 const AddProperty = () => {

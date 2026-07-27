@@ -4,7 +4,7 @@ import { useAuth } from '../../context/authcontext'
 import { useChat } from '../../context/ChatContext'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-import API_URL from '../../config.js'
+const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
 import Navbar from '../../components/common/Navbar'
 import { HiChevronLeft, HiOutlineChatAlt2, HiOutlineTrash, HiPaperAirplane } from 'react-icons/hi'
 

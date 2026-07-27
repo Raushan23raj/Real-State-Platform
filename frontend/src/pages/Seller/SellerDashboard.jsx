@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { sellerDashboardStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import axios from 'axios';
-import API_URL from '../../config.js';
+const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
 import { HiOutlineBell, HiOutlineChatAlt, HiOutlineCheckCircle, HiOutlineDownload, HiOutlineEye, HiOutlineLibrary, HiOutlinePencilAlt, HiOutlineSearch, HiOutlineTrash, HiOutlineUserGroup, HiPlus } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import PropertyCard from '../../components/common/PropertyCard';

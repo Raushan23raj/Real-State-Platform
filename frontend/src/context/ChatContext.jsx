@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useAuth } from './authcontext';
 import { io } from 'socket.io-client'
-import API_URL from '../config.js';
+const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
 
 const ChatContext = createContext();
 
