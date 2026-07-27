@@ -3,6 +3,8 @@ import cors from 'cors'
 import 'dotenv/config'
 import http from 'http'
 import { Server } from 'socket.io'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 import { connectDB } from './config/db.js';
 import authRouter from './routes/authroutes.js';
@@ -19,21 +21,40 @@ import chatRouter from './routes/chatroutes.js';
 // }
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
 
 await connectDB();
 
 //middlewares
 const allowedOrigins = [
+      process.env.CLIENT_URL,
+      process.env.FRONTEND_URL,
       "https://realestate-platform-3en8.onrender.com",
+      "http://localhost:5000",
       "http://localhost:5173",
       "http://127.0.0.1:5173",
       "http://localhost:4173",
       "http://127.0.0.1:4173"
 ].filter(Boolean);
 
+const isAllowedOrigin = (origin) => {
+      if (!origin) return true;
+
+      if (allowedOrigins.includes(origin)) return true;
+
+      try {
+            const hostname = new URL(origin).hostname;
+            return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".onrender.com");
+      } catch {
+            return false;
+      }
+};
+
 app.use(cors({
       origin: function (origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
+            if (isAllowedOrigin(origin)) {
                   callback(null, true);
             }
             else {
@@ -64,6 +85,12 @@ app.use("/api/contact", contactRouter);
 app.use("/api/admin", adminRouter);
 
 app.use("/api/chat", chatRouter);
+
+app.use(express.static(frontendDistPath));
+
+app.get(/^\/(?!api)(?!.*\.[^/]+$).*/, (req, res) => {
+      res.sendFile(path.join(frontendDistPath, 'index.html'));
+});
 
 const httpServer = http.createServer(app);
 //socket .io setup

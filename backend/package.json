@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
+    "postinstall": "cd ../frontend && npm install && npm run build",
     "migrate:messages": "node src/scripts/convertMessages.js"
   },
   "keywords": [],
