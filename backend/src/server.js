@@ -24,6 +24,7 @@ await connectDB();
 
 //middlewares
 const allowedOrigins = [
+      "https://realestate-platform-3en8.onrender.com",
       "http://localhost:5173",
       "http://127.0.0.1:5173",
       "http://localhost:4173",
@@ -99,5 +100,5 @@ httpServer.on("error", (error) => {
 });
 
 httpServer.listen(PORT, () => {
-      console.log(`server is running on http://localhost:${PORT}`)
+      console.log(`server is running on port ${PORT}`)
 })

@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import API_URL from "../config";
+import API_URL from "../config.js";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 

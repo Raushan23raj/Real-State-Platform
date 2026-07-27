@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { adminDashboardStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import { HiOutlineCheckCircle, HiOutlineLibrary, HiOutlineTicket, HiOutlineUserGroup } from 'react-icons/hi';
 
 const AdminDashboard = () => {

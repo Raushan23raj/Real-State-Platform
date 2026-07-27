@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { profileStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import Navbar from '../../components/common/Navbar';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import { HiCheck, HiOutlineLocationMarker, HiOutlineMail, HiOutlineUser, HiX, HiOutlinePhone } from 'react-icons/hi';
 import axios from 'axios';
 

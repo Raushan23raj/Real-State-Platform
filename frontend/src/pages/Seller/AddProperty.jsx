@@ -3,7 +3,7 @@ import axios from 'axios'
 import { addPropertyStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import { useNavigate } from 'react-router-dom';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import { HiUpload } from 'react-icons/hi';
 
 const AddProperty = () => {

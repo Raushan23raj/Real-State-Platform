@@ -4,7 +4,7 @@ import { useAuth } from '../../context/authcontext'
 import { useChat } from '../../context/ChatContext'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-import API_URL from '../../config'
+import API_URL from '../../config.js'
 import Navbar from '../../components/common/Navbar'
 import { HiChevronLeft, HiOutlineChatAlt2, HiOutlineTrash, HiPaperAirplane } from 'react-icons/hi'
 

@@ -3,7 +3,7 @@ import { verifyEmailStyles as s } from '../../assets/dummyStyles'
 import Navbar from '../../components/common/Navbar'
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 
 
 

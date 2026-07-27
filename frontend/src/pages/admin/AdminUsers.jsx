@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { adminUsersStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import axios from 'axios';
 import {
   HiOutlineBan,

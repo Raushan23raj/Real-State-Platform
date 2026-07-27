@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { adminContactsStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import axios from 'axios';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import { HiOutlineClock, HiOutlineMail, HiOutlineMailOpen, HiOutlinePhone } from 'react-icons/hi';
 
 const AdminContact = () => {

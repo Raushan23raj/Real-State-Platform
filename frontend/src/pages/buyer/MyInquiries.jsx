@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { myInquiriesStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import { Link, useNavigate } from 'react-router-dom';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import Navbar from '../../components/common/Navbar';
 import axios from 'axios';
 import { HiCalendar, HiChatAlt2, HiCheckCircle, HiExternalLink, HiHome, HiMail, HiOutlineChatAlt2, HiPhone, HiUser } from 'react-icons/hi';

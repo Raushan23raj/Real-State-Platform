@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { adminInquiriesStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import axios from 'axios';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import { HiOutlineAnnotation, HiOutlineCalendar, HiOutlineHome } from 'react-icons/hi';
 
 const AdminInquiries = () => {

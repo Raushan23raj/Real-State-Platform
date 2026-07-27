@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { editPropertyStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import { useNavigate, useParams } from 'react-router-dom';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import axios from 'axios';
 import { HiUpload, HiX } from 'react-icons/hi';
 

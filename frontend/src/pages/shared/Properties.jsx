@@ -14,7 +14,7 @@ import { propertiesStyles as s } from '../../assets/dummyStyles';
 import { useAuth } from '../../context/authcontext';
 import Navbar from '../../components/common/Navbar';
 import PropertyCard from '../../components/common/PropertyCard';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 
 const Properties = () => {
   const navigate = useNavigate();

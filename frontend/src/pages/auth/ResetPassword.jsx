@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { resetPasswordStyles as s } from '../../assets/dummyStyles';
 import Navbar from '../../components/common/Navbar';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import API_URL from '../../config';
+import API_URL from '../../config.js';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import axios from 'axios';
 
