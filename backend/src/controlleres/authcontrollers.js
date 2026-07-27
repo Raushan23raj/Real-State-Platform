@@ -161,7 +161,7 @@ export const forgotPassword = async (req, res) => {
             user.resetPasswordExpire = resetPasswordExpire;
             await user.save();
 
-            const clientUrl = process.env.CLIENT_URL || "https://realestate-platform-3en8.onrender.com";
+            const clientUrl = process.env.CLIENT_URL || "https://realestate-platform-backend-aewr.onrender.com";
             const resetUrl = `${clientUrl}/reset-password/${resetToken}`;
             const message = `
             <h2>Password Reset Request</h2>

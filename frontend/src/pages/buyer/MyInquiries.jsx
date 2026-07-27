@@ -6,7 +6,7 @@ import Navbar from '../../components/common/Navbar';
 import axios from 'axios';
 import { HiCalendar, HiChatAlt2, HiCheckCircle, HiExternalLink, HiHome, HiMail, HiOutlineChatAlt2, HiPhone, HiUser } from 'react-icons/hi';
 
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 
 const MyInquiries = () => {
 

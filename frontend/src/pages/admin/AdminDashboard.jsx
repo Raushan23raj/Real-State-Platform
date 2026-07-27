@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { adminDashboardStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 import { HiOutlineCheckCircle, HiOutlineLibrary, HiOutlineTicket, HiOutlineUserGroup } from 'react-icons/hi';
 
 const AdminDashboard = () => {

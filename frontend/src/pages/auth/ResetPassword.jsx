@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 
 const ResetPassword = () => {
 

@@ -31,7 +31,8 @@ await connectDB();
 const allowedOrigins = [
       process.env.CLIENT_URL,
       process.env.FRONTEND_URL,
-      "https://realestate-platform-3en8.onrender.com",
+      "https://realestate-platformfrontend.onrender.com",
+      "https://realestate-platform-backend-aewr.onrender.com",
       "http://localhost:5000",
       "http://localhost:5173",
       "http://127.0.0.1:5173",
@@ -75,6 +76,7 @@ app.use('/api/auth', authRouter);
 app.use("/api/user", userRouter);
 
 app.use("/api/property", propertyRouter);
+app.use("/api/properties", propertyRouter);
 
 app.use("/api/inquiry", inquiryRouter);
 

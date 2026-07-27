@@ -10,7 +10,7 @@ import PropertyCard from "../../components/common/PropertyCard";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa"
 import logo from "../../assets/image.png"
 
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 
 const Landingpages = () => {
       const navigate = useNavigate();

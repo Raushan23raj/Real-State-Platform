@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { profileStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import Navbar from '../../components/common/Navbar';
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 import { HiCheck, HiOutlineLocationMarker, HiOutlineMail, HiOutlineUser, HiX, HiOutlinePhone } from 'react-icons/hi';
 import axios from 'axios';
 

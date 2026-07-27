@@ -3,7 +3,7 @@ import { propertyDetailsStyles as s } from '../../assets/dummyStyles'
 import Navbar from '../../components/common/Navbar'
 import { useAuth } from '../../context/authcontext';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 import axios from 'axios';
 import { HiBadgeCheck, HiCalendar, HiChatAlt, HiChevronLeft, HiChevronRight, HiCollection, HiHeart, HiLocationMarker, HiOutlineHeart, HiOutlineHome, HiOutlineUserGroup, HiOutlineViewGrid, HiX } from 'react-icons/hi';
 import PropertyCard from '../../components/common/PropertyCard';

@@ -14,7 +14,7 @@ import { propertiesStyles as s } from '../../assets/dummyStyles';
 import { useAuth } from '../../context/authcontext';
 import Navbar from '../../components/common/Navbar';
 import PropertyCard from '../../components/common/PropertyCard';
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 
 const Properties = () => {
   const navigate = useNavigate();

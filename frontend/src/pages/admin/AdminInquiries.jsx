@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { adminInquiriesStyles as s } from '../../assets/dummyStyles'
 import { useAuth } from '../../context/authcontext'
 import axios from 'axios';
-const API_URL = import.meta.env.VITE_API_URL?.trim() || 'https://realestate-platform-3en8.onrender.com';
+import API_URL from '../../apiConfig';
 import { HiOutlineAnnotation, HiOutlineCalendar, HiOutlineHome } from 'react-icons/hi';
 
 const AdminInquiries = () => {
